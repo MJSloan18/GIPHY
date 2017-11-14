@@ -51,7 +51,6 @@
             // get the text contents of the button that got clicked
             var topic = $(this).text();
 
-            // var queryURL = "https://api.giphy.com/v1/gifs/random?tag=" + topic + "&api_key=LJ07yWhkjhqUi8BFrXkfzznAyPHydRej&limit=10";
             var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + topic + "&api_key=LJ07yWhkjhqUi8BFrXkfzznAyPHydRej&limit=10";
 
             $.ajax({
