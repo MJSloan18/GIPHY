@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<html lang="en-us">
+<meta charset="UTF-8">
+
+<head>
+    <title>GIF Homework</title>
+
+</head>
+
+<body>
+    <div id="topic-buttons">
+        <button id="raiders-button">Oakland Raiders</button>
+    </div>
+    <div id="images"></div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <script type="text/javascript">
+        var queryURL = "";
+        var giphyURL = "https://api.giphy.com/v1/gifs/search?";
+        var qSearchterm = "q=oakland-raiders";
+        var apiKey = "&api_key=LJ07yWhkjhqUi8BFrXkfzznAyPHydRej";
+        var limit = "&limit=10";
+        var rating = "&rating=pg";
+
+
+        var topics = ["Oakland Raiders", "Good Music", "Cars", "Scenic Views"];
+
+        // call this when the page loads and whenever the topics array changes
+        function makeButtons() {
+            // clear out existing buttons first
+            $("#topic-buttons").empty();
+
+            // then loop through topics
+            for (var i = 0; i < topics.length; i++) {
+                // make a button for each topic
+                var button = $("<button>" + topics[i] + "</button>");
+
+                // use this to listen for clicks on .topic-button
+                button.addClass("topic-button");
+
+                $("#topic-buttons").append(button);
+            }
+        }
+
+        // when the page loads, make buttons
+        makeButtons();
+
+        // use the special form (listen on document) because topic buttons are added by your JS code
+        $(document).on("click", ".topic-button", function() {
+            // get the text contents of the button that got clicked
+            var topic = $(this).text();
+
+            // var queryURL = "https://api.giphy.com/v1/gifs/random?tag=" + topic + "&api_key=LJ07yWhkjhqUi8BFrXkfzznAyPHydRej&limit=10";
+            var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + topic + "&api_key=LJ07yWhkjhqUi8BFrXkfzznAyPHydRej&limit=10";
+
+            $.ajax({
+                    url: queryURL,
+                    method: "GET"
+                })
+
+                .done(function(response) {
+                    console.log(response); // this is the key right here, learn how to read this in dev tools...10-4
+
+                    for (var i = 0; i < response.data.length; i++) {
+                        var imageUrl = response.data[i].images.original.url;
+
+                        var gifImage = $("<img>");
+
+                        gifImage.attr("src", imageUrl);
+                        gifImage.attr("alt", "image");
+
+                        $("#images").prepend(gifImage);
+                    }
+
+                });
+        });
+    </script>
+</body>
+
+</html>
